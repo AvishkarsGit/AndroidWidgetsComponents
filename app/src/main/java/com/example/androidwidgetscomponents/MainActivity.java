@@ -13,15 +13,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
     CheckBox c1,c2,c3,c4;
 
-    Button pickTime,pickDate,save;
+    Button pickTime,pickDate,save,saveall;
     ProgressBar progressBar;
     RadioGroup radioGroup;
     TextView gender,time,date,t1,t2,t3,t4;
+    int counter = 0;
 
     Calendar c;
     @Override
@@ -100,7 +103,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //progress bar
-        progressBar.setProgress(50);
+
+        saveall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                Timer timer =new Timer();
+                TimerTask timerTask = new TimerTask(){
+                    public void run(){
+
+                        counter++;
+
+                        progressBar.setProgress(counter);
+                        if (counter == 100){
+                            timer.cancel();
+                        }
+                    }
+                };
+                timer.schedule(timerTask,100,100);
+            }
+        });
 
     }
 
@@ -122,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         t2 = findViewById(R.id.txtJava);
         t3 = findViewById(R.id.txtAndroid);
         t4 = findViewById(R.id.txtFlutter);
+        saveall =findViewById(R.id.saveall);
 
     }
 }
